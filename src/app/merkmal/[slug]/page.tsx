@@ -3,19 +3,17 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import ParkCard from '@/components/ParkCard';
 import MapComponent from '@/components/MapComponent';
+import type { Metadata } from 'next';
+import type { PageProps } from 'next'; // ✅ Add this
 
-export default function FeaturePage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default function FeaturePage({ params }: PageProps<{ slug: string }>) {
   const features = getFeatures();
   const feature = features.find(f => f.slug === params.slug);
-  
+
   if (!feature) {
     notFound();
   }
-  
+
   const parks = getParksByFeature(params.slug);
   
   return (
