@@ -1,13 +1,15 @@
-import fs from 'fs';
+'use server';
+
 import path from 'path';
+import { promises as fs } from 'fs';
 import { parse } from 'csv-parse/sync';
 import { DogPark, City, Feature } from './types';
 
 // Function to read and parse the CSV file
-export function getDogParks(): DogPark[] {
+export async function getDogParks(): Promise<DogPark[]> {
   try {
     const filePath = path.join(process.cwd(), 'public', 'data', 'hundewiesen_germany.csv');
-    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const fileContent = await fs.readFile(filePath, 'utf8');
     
     const records = parse(fileContent, {
       columns: true,
@@ -49,8 +51,8 @@ export function getDogParks(): DogPark[] {
 }
 
 // Function to get all cities with dog parks
-export function getCities(): City[] {
-  const parks = getDogParks();
+export async function getCities(): Promise<City[]> {
+  const parks = await getDogParks();
   
   // Get unique cities
   const uniqueCities = Array.from(new Set(parks.map(park => park.city)));
@@ -63,9 +65,7 @@ export function getCities(): City[] {
     return {
       id: index + 1,
       name: cityName,
-      slug: cityName.toLowerCase().replace(/\s+/g, '-').replace(/[äöüß]/g, match => {
-        return { 'ä': 'ae', 'ö': 'oe', 'ü': 'ue', 'ß': 'ss' }[match] || match;
-      }),
+      slug: createSlug(cityName),
       state,
       parks: cityParks
     };
@@ -73,25 +73,25 @@ export function getCities(): City[] {
 }
 
 // Function to get a specific city by slug
-export function getCityBySlug(slug: string): City | undefined {
-  const cities = getCities();
+export async function getCityBySlug(slug: string): Promise<City | undefined> {
+  const cities = await getCities();
   return cities.find(city => city.slug === slug);
 }
 
 // Function to get a specific dog park by ID
-export function getDogParkById(id: number): DogPark | undefined {
-  const parks = getDogParks();
+export async function getDogParkById(id: number): Promise<DogPark | undefined> {
+  const parks = await getDogParks();
   return parks.find(park => park.id === id);
 }
 
 // Function to get a specific dog park by slug
-export function getDogParkBySlug(slug: string): DogPark | undefined {
-  const parks = getDogParks();
+export async function getDogParkBySlug(slug: string): Promise<DogPark | undefined> {
+  const parks = await getDogParks();
   return parks.find(park => createSlug(park.name) === slug);
 }
 
 // Function to create a slug from a string
-export function createSlug(text: string): string {
+export async function createSlug(text: string): Promise<string> {
   return text.toLowerCase()
     .replace(/\s+/g, '-')
     .replace(/[äöüß]/g, match => {
@@ -104,7 +104,7 @@ export function createSlug(text: string): string {
 }
 
 // Function to get all features
-export function getFeatures(): Feature[] {
+export async function getFeatures(): Promise<Feature[]> {
   return [
     { id: 1, name: 'Eingezäunt', name_en: 'Fenced', slug: 'eingezaeunt', icon: 'fence' },
     { id: 2, name: 'Wasser', name_en: 'Water', slug: 'wasser', icon: 'water' },
@@ -118,9 +118,9 @@ export function getFeatures(): Feature[] {
 }
 
 // Function to get parks by feature
-export function getParksByFeature(featureSlug: string): DogPark[] {
-  const parks = getDogParks();
-  const features = getFeatures();
+export async function getParksByFeature(featureSlug: string): Promise<DogPark[]> {
+  const parks = await getDogParks();
+  const features = await getFeatures();
   const feature = features.find(f => f.slug === featureSlug);
   
   if (!feature) return [];
@@ -148,8 +148,8 @@ export function getParksByFeature(featureSlug: string): DogPark[] {
 }
 
 // Function to search parks
-export function searchParks(query: string): DogPark[] {
-  const parks = getDogParks();
+export async function searchParks(query: string): Promise<DogPark[]> {
+  const parks = await getDogParks();
   const searchTerms = query.toLowerCase().split(' ');
   
   return parks.filter(park => {

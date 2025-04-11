@@ -1,8 +1,6 @@
-# HundeparkFinder.de - Documentation
+# HundeparkFinder.de
 
-## Project Overview
-
-HundeparkFinder.de is a comprehensive directory website for dog parks (Hundewiesen) in Germany. The website allows users to search for dog parks by location, features, and keywords, view detailed information about each park, and explore parks on an interactive map.
+A comprehensive directory website for dog parks (Hundewiesen) in Germany.
 
 ## Features
 
@@ -16,13 +14,48 @@ HundeparkFinder.de is a comprehensive directory website for dog parks (Hundewies
 - **Multilingual Support**: Toggle between German (default) and English
 - **SEO Optimized**: Structured for search engine visibility with proper metadata
 
-## Tech Stack
+## Getting Started
 
-- **Frontend Framework**: Next.js with App Router
-- **TypeScript**: For type safety and better developer experience
-- **Tailwind CSS**: For responsive and customizable styling
-- **Leaflet**: For interactive maps
-- **CSV Parser**: For reading dog park data
+### Prerequisites
+
+- Node.js (v16 or later)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/hundeparkfinder.git
+   cd hundeparkfinder
+   ```
+
+2. Install dependencies:
+   ```
+   npm install
+   ```
+
+3. Run the development server:
+   ```
+   npm run dev
+   ```
+
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the website.
+
+## Deployment on Vercel
+
+This project is optimized for deployment on Vercel:
+
+1. Push your code to a GitHub repository
+2. Import the project in Vercel dashboard
+3. Configure the project settings (no special configuration needed)
+4. Deploy
+
+Alternatively, you can deploy directly from the command line:
+
+```
+npm install -g vercel
+vercel
+```
 
 ## Project Structure
 
@@ -55,45 +88,6 @@ hundeparkfinder/
 └── package.json                     # Dependencies and scripts
 ```
 
-## Setup Instructions
-
-### Prerequisites
-
-- Node.js (v18 or later)
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/hundeparkfinder.git
-   cd hundeparkfinder
-   ```
-
-2. Install dependencies:
-   ```
-   npm install
-   ```
-
-3. Run the development server:
-   ```
-   npm run dev
-   ```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to see the website.
-
-### Building for Production
-
-1. Build the project:
-   ```
-   npm run build
-   ```
-
-2. Start the production server:
-   ```
-   npm start
-   ```
-
 ## Data Management
 
 The website uses a CSV file (`public/data/hundewiesen_germany.csv`) as its data source. This file contains information about dog parks across Germany, including:
@@ -104,13 +98,8 @@ The website uses a CSV file (`public/data/hundewiesen_germany.csv`) as its data 
 - GPS coordinates
 - Features (fenced, water access, etc.)
 - Ratings and reviews
-- And more
 
-To update or add new dog parks:
-
-1. Edit the CSV file directly or use the admin panel (when implemented)
-2. Ensure all required fields are filled
-3. Rebuild the website to reflect the changes
+To update or add new dog parks, edit the CSV file directly and rebuild the website.
 
 ## API Routes
 
@@ -120,21 +109,7 @@ The website includes several API routes for accessing data:
 - `/api/parks/[id]`: Get a specific dog park by ID
 - `/api/cities`: Get all cities with dog parks
 - `/api/cities/[slug]`: Get a specific city by slug
-- `/api/features`: Get all features
-
-## Multilingual Support
-
-The website currently supports German (default) and English. The language toggle in the header allows users to switch between languages.
-
-## SEO Implementation
-
-The website is optimized for search engines with:
-
-- Semantic HTML structure
-- Proper metadata (title, description)
-- Structured data for dog parks
-- SEO-friendly URLs
-- Optimized content based on keyword research
+- `/api/features`: Get all available features
 
 ## Future Enhancements
 
@@ -147,16 +122,6 @@ Potential future enhancements include:
 - Blog section with CMS integration
 - Affiliate marketing integration
 
-## Troubleshooting
+## License
 
-### Common Issues
-
-- **Maps not loading**: Ensure Leaflet CSS is properly imported
-- **Data not appearing**: Check that the CSV file is correctly formatted and accessible
-- **Build errors**: Verify all dependencies are installed and compatible
-
-### Support
-
-For support or questions, please contact:
-- Email: support@hundeparkfinder.de
-- GitHub: [github.com/yourusername/hundeparkfinder](https://github.com/yourusername/hundeparkfinder)
+This project is licensed under the MIT License - see the LICENSE file for details.
