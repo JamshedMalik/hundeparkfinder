@@ -1,12 +1,13 @@
 import { getCityBySlug } from '@/lib/data';
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import type { NextApiRequestContext } from 'next';
 
-// API route to get a specific city by slug
 export async function GET(
-  request: Request,
-  context: { params: { slug: string } }
+  request: NextRequest,
+  context: NextApiRequestContext
 ) {
-  const { slug } = context.params;
+  const slug = context.params.slug;
 
   if (!slug) {
     return NextResponse.json(
